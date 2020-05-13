@@ -1,0 +1,45 @@
+// Config file of V2Ray. This file follows standard JSON format, with comments
+// support.  Uncomment entries below to satisfy your needs. Also read our
+// manual for more detail at https://www.v2ray.com/
+//
+// This configuration sets up a VMESS protocol input over an https websocket
+// connection. It is best used with a real webserver exposed to the internet
+// and redirecting a specific path to v2ray
+{
+  "log": {
+    // By default, V2Ray writes access log to stdout.
+    // "access": "/path/to/access/log/file",
+
+    // By default, V2Ray write error log to stdout.
+    // "error": "/path/to/error/log/file",
+
+    // Log level, one of "debug", "info", "warning", "error", "none"
+    "loglevel": "warning"
+  },
+  "inbounds": [{
+    // Ensure this port matches nginx redirection
+    "port": 9999,
+    "listen": "127.0.0.1",
+    "protocol": "vmess",
+    "settings": {
+      "clients": [
+        {
+          // Use command `uuidgen` or an online service to generate a UUID
+          "id": "****GENERATE*A*UUID*WITH*COMMAND*uuigen****",
+          "alterId": 64
+        }
+      ]
+    },
+    "streamSettings": {
+      "network": "ws",
+      "wsSettings": {
+        "path": "/streaming-service/"
+      }
+    }
+  }],
+
+  "outbounds": [{
+    "protocol": "freedom",
+    "settings": {}
+  }]
+}
