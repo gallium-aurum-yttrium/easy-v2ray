@@ -1,0 +1,136 @@
+// Config file of V2Ray. This file follows standard JSON format, with comments
+// support.
+// https://www.v2ray.com/
+//
+// The configuration provided below enables two inputs: a Socks 5 proxy and a
+// normal http proxy. These are intended to be configured in the browser or in
+// the system preferences for a global redirecct.
+//
+// Recommendation: always configure Socks5 proxy. HTTP proxy is provided just
+// for applications not supporting Socks5.
+//
+// The outbound connection is using the V2Ray VMESS protocol encapsulated on
+// top of HTTPS websockets, to connect to a matching V2Ray server. The server
+// must have the same configuration (protocol, transport, UUID, etc.)
+//
+// There are two additional outbout connections: internet, for sites that do
+// not need to go through the proxy, and discard, where matching advertising
+// sites will be ignored. More information in the routing section of this file.
+//
+// Although this can be directly used with v2ray-core, there are other
+// applications that make managing it easier, by using a GUI interface. For
+// example v2rayN https://github.com/2dust/v2rayN
+{
+  "log": {
+    "loglevel": "warning"
+  },
+  "inbounds": [
+    // Socks5
+    {
+      "protocol": "socks",
+      "port": 1080,
+      "listen": "127.0.0.1",
+      "tag": "incoming-connection-socks",
+      "settings": {
+        "udp": true
+        // NOTE: This must be set to the public IP address of the host to allow
+        // public UDP traffic.
+        //"ip": "127.0.0.1"
+      }
+    },
+    // HTTP PROXY
+    {
+      "protocol": "http",
+      "port": 1081,
+      "listen": "127.0.0.1",
+      "tag": "incoming-connection-http",
+      "settings": {
+        "allowTransparent": true
+      }
+    }
+  ],
+  "outbounds": [
+    // Internet
+    {
+      "protocol": "freedom",
+      "tag": "to-internet"
+    },
+    // Discard packets (answer directly with HTTP 403), used to block ads
+    {
+      "protocol": "blackhole",
+      "response": "http",
+      "tag": "discard"
+    },
+    // Connection to trusted server configured with matching inbound
+    {
+      "protocol": "vmess",
+      "tag": "to-trusted-server",
+      "settings": {
+        "vnext": [{
+          // Add your server URL below
+          "address": "******YOUR_SERVER_HERE______.cloudfront.net****",
+          "port": 443,
+          "users": [{
+            // Put your UUID here, it MUST match the server
+            "id": "********UUID-MUST-MATCH-SERVER*******",
+            "alterId": 64,
+            "security": "aes-128-gcm"
+          }]
+        }]
+      },
+      // VMess protocol is, in this section below, obfuscated using HTTPS and
+      // websockets. Traffic is received at the endpoint by nginx at /videos/
+      // and proxied to the v2ray. This allows traffic to be directed to a CDN
+      // to avoid exposing the origin.
+      "streamSettings": {
+        "network": "ws",
+        "wsSettings": {
+          "path": "/streaming-service/"
+        },
+        // Tells v2ray how to validate the HTTPS server certificate
+        "security": "tls",
+        "tlsSettings": {
+          "allowInsecure": false
+        }
+      }
+    }
+  ],
+  "routing": {
+    // What to do with incoming requests.
+    //
+    // For better filtering, like using the gfwlist to just forward known
+    // blocked domains, a PAC file can be used in the browser proxy
+    // configuration. In this case, the browser will only pass to the proxy
+    // (this program) blocked sites that will go through the 3rd rule
+    //
+    // https://github.com/petronny/gfwlist2pac
+    "domainStrategy": "AsIs",
+    "rules": [
+      // 1. Ignore ads domains
+      {
+        "type": "field",
+        "domain": [
+          "geosite:category-ads"
+        ],
+        "outboundTag": "discard"
+      },
+      // 2. Chinese domains (like baidu.com, *.cn) through internet
+      {
+        "type": "field",
+        "domain": [
+          "geosite:cn"
+        ],
+        "outboundTag": "to-internet"
+      },
+      // 3. Any other traffic goes to the trusted server
+      {
+        "type": "field",
+        "inboundTag": [
+          "incoming-connection-socks",
+          "incoming-connection-http"          
+        ],
+        "outboundTag": "to-trusted-server"
+      }
+    ]
+  }
+}
