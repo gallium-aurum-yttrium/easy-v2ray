@@ -3,6 +3,8 @@ This document includes instructions on how to setup an AWS EC2 server and AWS Cl
 
 Note: this setup is quite stable, but more advanced detection techniques may still detect it in the future. Hopefully by using a CDN node this is mitigated, as the number of users using this is mostly limited to people with IT-background.
 
+The latest version of this document can be found here: https://github.com/gallium-aurum-yttrium/easy-v2ray/
+
 # Overall architecture
  - Webserver (nginx) is used to serve real HTTPS requests and forward the special requests to V2Ray
  - HTTPS certificate provided by letsencrypt.org
@@ -34,9 +36,9 @@ Host your-alias 123.123.123.123
 ## Configure dynamic DNS
 Using a dynamic DNS will ensure that your setup is stable even if the EC2 IP address changes, which happens when the EC2 instance is shut down.
 
-Alternatively, you can set up an Elastic IP, but you will be charged if the instance is offline. See [pricing]https://aws.amazon.com/premiumsupport/knowledge-center/elastic-ip-charges/.
+Alternatively, you can set up an Elastic IP, but you will be charged if the instance is offline. See [pricing](https://aws.amazon.com/premiumsupport/knowledge-center/elastic-ip-charges/).
 
-These steps use DNSExit.com as example, but other services [supported by ddupdate]https://github.com/leamas/ddupdate/tree/devel/plugins will do as well.
+These steps use DNSExit.com as example, but other services [supported by ddupdate](https://github.com/leamas/ddupdate/tree/devel/plugins) will do as well.
   - Create an account in dnsexit.com
   - Add one free DNS record
   - In your EC2 server, install ddupdate `sudo apt install ddupdate`
@@ -109,7 +111,7 @@ AWS CloudFront is a service managed from its own console, it's independent of EC
   - Use your CloudFront domain name from a browser to ensure that it is setup correctly, for example https://sdfgdfcg4352y.cloudfront.net
 
 ## Install V2Ray
-  - Download latest v2ray-core for Linux 64 bit [https://github.com/v2ray/v2ray-core/releases]https://github.com/v2ray/v2ray-core/releases
+  - Download latest v2ray-core for Linux 64 bit https://github.com/v2ray/v2ray-core/releases
   - Uncompress it to /usr/local/, for example, /usr/local/v2ray-4.20.0
   - Create a symbolic link to the directory, this will allow for easy updates, as we will use v2ray without the version in the configuration files `sudo ln -sf /usr/local/v2ray-4.20.0 /usr/local/v2ray`
   - Copy systemd unit to /etc `sudo cp /usr/local/v2ray/systemd/v2ray.service /etc/systemd/"
@@ -125,7 +127,7 @@ AWS CloudFront is a service managed from its own console, it's independent of EC
 Now that V2Ray is installed, it needs to be configured. It is a very versatile software that it is configured by setting up input points, output points and routing between. For example, in the server, it is configured with websocket input and just internet output. In the client, it is configured with socks proxy input and websocket output.
 
   - Create a new UUID number `uuidgen` the output will be something like 7a2a08a1-78d1-4646-a0dc-6ac45855f14b (do not use this one)
-  - Copy the file config.json from this [git repo]https://github.com/gallium-aurum-yttrium/easy-v2ray/ to /etc/v2ray/
+  - Copy the file config.json from this [git repo](https://github.com/gallium-aurum-yttrium/easy-v2ray/) to /etc/v2ray/
   - Edit the config.json file, making sure that
     - id: put the UUID generated here
     - path: option matches the URL in nginx configuration `/streaming-service/`
