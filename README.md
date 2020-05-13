@@ -60,3 +60,24 @@ password your-dnsexit-password
   - Use the hostname to connect to your EC2 from Windows/Linux
 
 ## Configure web server
+This is needed because some firewalls monitor HTTPS trafic and establish an HTTPS connection to the webserver to ensure it is a real web server.
+  - Install nginx and letsencrypt facilities `sudo apt install nginx-core python-certbot-nginx`
+  - Add V2Ray configuration to `/etc/nginx/sites/available/default`
+```
+At the end of section server {...
+
+    # Redirect to V2Ray, this location will be set up in the client
+    location /streaming-service/ {
+        proxy_redirect off;
+        proxy_pass http://127.0.0.1:9999;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $http_host;
+    }
+```
+  - Start nginx and set it to start by default `sudo systemctl enable nginx`, `sudo systemctl start nginx`
+  - Configure letsencrypt certificate `sudo certbot --nginx -d the-hostname-you-chose-in-dnsexit.linkpc.net`
+  - Using a browser from your pc open URL "https://the-hostname-you-chose-in-dnsexit.linkpc.net/" to ensure it is working properly with https
+  
+## Install V2Ray
