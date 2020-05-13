@@ -33,6 +33,7 @@
     "streamSettings": {
       "network": "ws",
       "wsSettings": {
+        // Ensure this path matches nginx redirection
         "path": "/streaming-service/"
       }
     }
