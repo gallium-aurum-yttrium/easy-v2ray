@@ -79,9 +79,9 @@
         }]
       },
       // VMess protocol is, in this section below, obfuscated using HTTPS and
-      // websockets. Traffic is received at the endpoint by nginx at /videos/
-      // and proxied to the v2ray. This allows traffic to be directed to a CDN
-      // to avoid exposing the origin.
+      // websockets. Traffic is received at the endpoint by nginx at the path
+      // /streaming-service/ and proxied to the v2ray. This allows traffic to
+      // be directed to a CDN to avoid exposing the origin.
       "streamSettings": {
         "network": "ws",
         "wsSettings": {
