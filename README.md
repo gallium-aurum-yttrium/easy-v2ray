@@ -1,6 +1,8 @@
 # easy-v2ray
 This document includes instructions on how to setup an AWS EC2 server and AWS CloudFront CDN to set up a reliable proxy. Although these steps would work with other cloud providers, the integration of CloudFront and EC2 makes it very convenient.
 
+Note: this setup is quite stable, but more advanced detection techniques may still detect it in the future. Hopefully by using a CDN node this is mitigated, as the number of users using this is mostly limited to people with IT-background.
+
 # Overall architecture
  - Webserver (nginx) is used to serve real HTTPS requests and forward the special requests to V2Ray
  - HTTPS certificate provided by letsencrypt.org
@@ -78,6 +80,32 @@ At the end of section server {...
 ```
   - Start nginx and set it to start by default `sudo systemctl enable nginx`, `sudo systemctl start nginx`
   - Configure letsencrypt certificate `sudo certbot --nginx -d the-hostname-you-chose-in-dnsexit.linkpc.net`
+  - Enable automatic renewal `sudo systemctl enable certbot-renewal.timer`
   - Using a browser from your pc open URL "https://the-hostname-you-chose-in-dnsexit.linkpc.net/" to ensure it is working properly with https
-  
+
+## Set-up AWS CloudFront
+This step ensures that your EC2 server will not be blocked because you are using shared CDN nodes
+
 ## Install V2Ray
+  - Download latest v2ray-core for Linux 64 bit [https://github.com/v2ray/v2ray-core/releases]https://github.com/v2ray/v2ray-core/releases
+  - Uncompress it to /usr/local/, for example, /usr/local/v2ray-4.20.0
+  - Create a symbolic link to the directory, this will allow for easy updates, as we will use v2ray without the version in the configuration files `sudo ln -sf /usr/local/v2ray-4.20.0 /usr/local/v2ray`
+  - Copy systemd unit to /etc `sudo cp /usr/local/v2ray/systemd/v2ray.service /etc/systemd/"
+  - Edit `/etc/systemd/v2ray.service`, set up the correct commandline `ExecStart=/usr/local/v2ray/v2ray -config /etc/v2ray/config.json`
+  - Create config dir `sudo mkdir /etc/v2ray`
+  - Copy default config.json to /etc/v2ray `sudo cp /usr/local/v2ray/config.json /etc/v2ray/`
+  - When updating V2Ray, just uncompress the new archive and force the link creation with the new version `sudo ln -sf /usr/local/v2ray-4.22.3 /usr/local/v2ray`
+  - Start v2ray `sudo systemctl start v2ray`
+  - Ensure service starts properly by checking `sudo systemctl status v2ray`
+  - Enable v2ray when system starts `sudo systemctl enable v2ray`
+
+## Configure V2Ray
+Now that V2Ray is installed, it needs to be configured. It is a very versatile software that it is configured by setting up input points, output points and routing between. For example, in the server, it is configured with websocket input and just internet output. In the client, it is configured with socks proxy input and websocket output.
+
+  - Create a new UUID number `uuidgen` the output will be something like 7a2a08a1-78d1-4646-a0dc-6ac45855f14b (do not use this one)
+  - Copy the file config.json from this [git repo]https://github.com/gallium-aurum-yttrium/easy-v2ray/ to /etc/v2ray/
+  - Edit the config.json file, making sure that
+    - id: put the UUID generated here
+    - path: option matches the URL in nginx configuration `/streaming-service/`
+    - port: option matches the port in nginx configuration `9999`
+  - Restart v2ray with the new configuration `sudo systemctl restart v2ray`
