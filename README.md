@@ -83,7 +83,8 @@ At the end of section server {...
   - Start nginx and set it to start by default `sudo systemctl enable nginx`, `sudo systemctl start nginx`
   - Configure letsencrypt certificate `sudo certbot --nginx -d the-hostname-you-chose-in-dnsexit.linkpc.net`
   - Enable automatic renewal `sudo systemctl enable certbot-renewal.timer`
-  - Using a browser from your pc open URL "https://the-hostname-you-chose-in-dnsexit.linkpc.net/" to ensure it is working properly with https
+  - Using a browser from your pc open URL "https://the-hostname-you-chose-in-dnsexit.linkpc.net/" to ensure it is working properly with https+
+  - Optional: replace the default nginx index.html with a custom page
 
 ## Set-up AWS CloudFront
 AWS CloudFront is a service managed from its own console, it's independent of EC2. It's located under "Networking & Content Delivery".
