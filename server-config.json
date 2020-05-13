@@ -25,7 +25,7 @@
       "clients": [
         {
           // Use command `uuidgen` or an online service to generate a UUID
-          "id": "****GENERATE*A*UUID*WITH*COMMAND*uuigen****",
+          "id": "****GENERATE*A*UUID*WITH*COMMAND*uuidgen****",
           "alterId": 64
         }
       ]
