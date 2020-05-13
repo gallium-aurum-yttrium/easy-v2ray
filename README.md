@@ -30,14 +30,33 @@ Host your-alias 123.123.123.123
     - 443, will be used for normal web traffic and V2Ray websocket
 
 ## Configure dynamic DNS
-These steps use DNSExit.com as example, but other services will do as well.
+Using a dynamic DNS will ensure that your setup is stable even if the EC2 IP address changes, which happens when the EC2 instance is shut down.
+
+Alternatively, you can set up an Elastic IP, but you will be charged if the instance is offline. See [pricing]https://aws.amazon.com/premiumsupport/knowledge-center/elastic-ip-charges/.
+
+These steps use DNSExit.com as example, but other services [supported by ddupdate]https://github.com/leamas/ddupdate/tree/devel/plugins will do as well.
   - Create an account in dnsexit.com
   - Add one free DNS record
   - In your EC2 server, install ddupdate `sudo apt install ddupdate`
-  - Configure file `/etc/netrc`
+  - Configure `/etc/ddupdate.conf`
+```
+[update]
+address-plugin = default-web-ip
+service-plugin = dnsexit.com
+hostname = the-hostname-you-chose-in-dnsexit.linkpc.net
+ip-version = v4
+loglevel = warning
+```
+  - Configure credentials in file `/etc/netrc`
 ```
 machine update.dnsexit.com
 login your-dnsexit-username
 password your-dnsexit-password
 ```
-  - lkjhkj
+  - Ensure this file is owned by root and only root can read and write it `sudo chown root:root /etc/netrc` and `sudo chmod 600 /etc/netrc`
+  - Enable the service and the timer `sudo systemctl enable ddupdate.service` and `sudo systemctl enable ddupdate.timer`
+  - Run the update once and check that dnsexit site has updated the IP `sudo systemctl start ddupdate.service`
+  - Set the hostname in EC2 server `sudo hostnamectl set-hostname the-hostname-you-chose-in-dnsexit.linkpc.net`
+  - Use the hostname to connect to your EC2 from Windows/Linux
+
+## Configure web server
