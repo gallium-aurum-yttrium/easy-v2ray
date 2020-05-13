@@ -127,7 +127,7 @@ AWS CloudFront is a service managed from its own console, it's independent of EC
 ## Configure V2Ray
 Now that V2Ray is installed, it needs to be configured. It is a very versatile software that it is configured by setting up input points, output points and routing between. For example, in the server, it is configured with websocket input and just internet output. In the client, it is configured with socks proxy input and websocket output.
 
-  - Create a new UUID number `uuidgen` the output will be something like 7a2a08a1-78d1-4646-a0dc-6ac45855f14b (do not use this one)
+  - Create a new UUID number using `uuidgen` command line tool (check this [website](https://www.uuidgenerator.net/) if uuidgen not available) the output will be something like 7a2a08a1-78d1-4646-a0dc-6ac45855f14b (do not use this one)
   - Copy the file config.json from this [git repo](https://github.com/gallium-aurum-yttrium/easy-v2ray/) to /etc/v2ray/
   - Edit the config.json file, making sure that
     - id: put the UUID generated here
