@@ -84,7 +84,29 @@ At the end of section server {...
   - Using a browser from your pc open URL "https://the-hostname-you-chose-in-dnsexit.linkpc.net/" to ensure it is working properly with https
 
 ## Set-up AWS CloudFront
-This step ensures that your EC2 server will not be blocked because you are using shared CDN nodes
+AWS CloudFront is a service managed from its own console, it's independent of EC2. It's located under "Networking & Content Delivery".
+
+  - Create a distribution point. Use these options for `Distribution Settings`
+    - Price Class - Whatever zone you prefer
+    - AWS WAF Web ACL	None
+    - Alternate Domain Names: 
+    - SSL Certificate: Default
+    - Supported HTTP Versions: 
+    - HTTP/2, HTTP/1.1, HTTP/1.0: 
+    - Default Root Object: 
+    - Logging: Off
+    - Distribution State: Enabled
+
+  - Create an Origin for that distribution point. Use these settings:
+    - Origin Domain Name: Your dynamic dns hostname
+    - Origin Path: 
+    - Minimum Origin SSL Protocol: TLSv1.2
+    - Origin Protocol Policy: HTTPS Only
+    - Origin Response Timeout: 30
+    - Origin Keep-alive Timeout: 5
+    - HTTP Port: 80
+    - HTTPS Port: 443
+  - Use your CloudFront domain name from a browser to ensure that it is setup correctly, for example https://sdfgdfcg4352y.cloudfront.net
 
 ## Install V2Ray
   - Download latest v2ray-core for Linux 64 bit [https://github.com/v2ray/v2ray-core/releases]https://github.com/v2ray/v2ray-core/releases
@@ -109,3 +131,5 @@ Now that V2Ray is installed, it needs to be configured. It is a very versatile s
     - path: option matches the URL in nginx configuration `/streaming-service/`
     - port: option matches the port in nginx configuration `9999`
   - Restart v2ray with the new configuration `sudo systemctl restart v2ray`
+
+# Configure clients
