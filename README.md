@@ -14,6 +14,7 @@ This document includes instructions on how to setup an AWS EC2 server and AWS Cl
   - Create an EC2 instance in AWS, very low resources are needed, the free tier instances work fine
   - Follow the instructions on screen to get the SSH key. Ensure this key is password-protected.
   - Configure ssh access from your coputer to the server (search online for details)
+    - For Windows use PuTTYGen to protect the key with password and use it as ssh key-base authentication
     - For Linux
       - Use Openssh to encrypt the key with a password (for example using pcks8), delete the original
       - Copy the password-protected key to `~/.ssh/`
@@ -24,9 +25,19 @@ Host your-alias 123.123.123.123
     IdentityFile ~/.ssh/your-ec2-encrypted-and-protected-key.pkcs8
     User ubuntu
 ```
-    - For Windows use PuTTYGen to protect the key with password and use it as ssh key-base authentication
   - Configure the `Inbound Rules` in the `Security Group` used by the EC2 instance to allow Internet connections for these ports:
     - 80, required by letsencrypt.org
     - 443, will be used for normal web traffic and V2Ray websocket
 
-## 
+## Configure dynamic DNS
+These steps use DNSExit.com as example, but other services will do as well.
+  - Create an account in dnsexit.com
+  - Add one free DNS record
+  - In your EC2 server, install ddupdate `sudo apt install ddupdate`
+  - Configure file `/etc/netrc`
+```
+machine update.dnsexit.com
+login your-dnsexit-username
+password your-dnsexit-password
+```
+  - lkjhkj
