@@ -83,7 +83,7 @@ At the end of section server {...
   - Start nginx and set it to start by default `sudo systemctl enable nginx`, `sudo systemctl start nginx`
   - Configure letsencrypt certificate `sudo certbot --nginx -d the-hostname-you-chose-in-dnsexit.linkpc.net`
   - Enable automatic renewal `sudo systemctl enable certbot-renewal.timer`
-  - Using a browser from your pc open URL "https://the-hostname-you-chose-in-dnsexit.linkpc.net/" to ensure it is working properly with https+
+  - Using a browser from your pc open URL "https://the-hostname-you-chose-in-dnsexit.linkpc.net/" to ensure it is working properly with https
   - Optional: replace the default nginx index.html with a custom page
 
 ## Set-up AWS CloudFront
@@ -115,7 +115,7 @@ AWS CloudFront is a service managed from its own console, it's independent of EC
   - Download latest v2ray-core for Linux 64 bit https://github.com/v2ray/v2ray-core/releases
   - Uncompress it to /usr/local/, for example, /usr/local/v2ray-4.20.0
   - Create a symbolic link to the directory, this will allow for easy updates, as we will use v2ray without the version in the configuration files `sudo ln -sf /usr/local/v2ray-4.20.0 /usr/local/v2ray`
-  - Copy systemd unit to /etc `sudo cp /usr/local/v2ray/systemd/v2ray.service /etc/systemd/"
+  - Copy systemd unit to /etc `sudo cp /usr/local/v2ray/systemd/v2ray.service /etc/systemd/`
   - Edit `/etc/systemd/v2ray.service`, set up the correct commandline `ExecStart=/usr/local/v2ray/v2ray -config /etc/v2ray/config.json`
   - Create config dir `sudo mkdir /etc/v2ray`
   - Copy default config.json to /etc/v2ray `sudo cp /usr/local/v2ray/config.json /etc/v2ray/`
