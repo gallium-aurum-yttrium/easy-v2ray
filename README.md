@@ -136,10 +136,17 @@ Now that V2Ray is installed, it needs to be configured. It is a very versatile s
   - Restart v2ray with the new configuration `sudo systemctl restart v2ray`
 
 # Configure clients
-Clients use the same V2Ray software as he server does, except the configuration is different, see the table below:
+Clients use the same V2Ray software as he server does, except the configuration is different. You can either use directly V2Ray-core or any of the available GUI frontends for your platform (for example Windows and Android).
+
+The only requirement for the client is to match the VMEss configuration defined in the server, including the custom ID, otherwise it will fail to connect to the server.
+
+An example client configuration file with additional features is provided in this repository, with the configuration shown below:
 |  | Server | Client |
 |-|-|-|
 | Input | VMess protocol encapsulated in websockets | Socks 5 proxy<br>HTTP proxy |
 | Output | Internet | VMess protocol encapsulated in websockets<br>Internet<br>Discard |
 | Rules Input -> Output | All traffic is forwarded from VMEss input to Internet | 1. Advertising domains are discarded<br>2. Chinese websites are routed to the Internet, unmodified traffic<br>3. Any other traffic is forwarded through the VMess output |
 
+The provided configuration tries to restrict the number of websites that are automatically forwarded through the server, to save on bandwidth. Also, connecting to websites directly is faster than going through the proxy.
+
+To further refine the list of websites forwarded through the proxy, you can configure a local PAC file, to be used in the Windows or Firefox prroxy configuration (a local PAC file is not supported by Chrome). A good list is the GFW list, predefined PAC files with this list can be found in GitHub.
