@@ -136,3 +136,10 @@ Now that V2Ray is installed, it needs to be configured. It is a very versatile s
   - Restart v2ray with the new configuration `sudo systemctl restart v2ray`
 
 # Configure clients
+Clients use the same V2Ray software as he server does, except the configuration is different, see the table below:
+|  | Server | Client |
+|-|-|-|
+| Input | VMess protocol encapsulated in websockets | Socks 5 proxy<br>HTTP proxy |
+| Output | Internet | VMess protocol encapsulated in websockets<br>Internet<br>Discard |
+| Rules Input -> Output | All traffic is forwarded from VMEss input to Internet | 1. Advertising domains are discarded<br>2. Chinese websites are routed to the Internet, unmodified traffic<br>3. Any other traffic is forwarded through the VMess output |
+
