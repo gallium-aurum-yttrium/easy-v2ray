@@ -119,8 +119,9 @@ AWS CloudFront is a service managed from its own console, it's independent of EC
   - Download latest v2ray-core for Linux 64 bit https://github.com/v2ray/v2ray-core/releases
   - Uncompress it to /usr/local/share/, for example, /usr/local/share/v2ray-4.20.0
   - Create a symbolic link to the directory, this will allow for easy updates, as we will use v2ray without the version in the configuration files `sudo ln -sf /usr/local/share/v2ray-4.20.0 /usr/local/share/v2ray`
-  - Copy systemd unit to /etc `sudo cp /usr/local/share/v2ray/systemd/v2ray.service /etc/systemd/system/`
-  - Edit `/etc/systemd/system/v2ray.service`, set up the correct commandline `ExecStart=/usr/local/share/v2ray/v2ray -config /etc/v2ray/config.json`
+  - Create link to the binary file so it is in the expected location `sudo ln -sf /usr/local/share/v2ray/v2ray /usr/local/bin/`
+  - Copy systemd unit to /etc `sudo cp /usr/local/share/v2ray/systemd/system/v2ray* /etc/systemd/system/`
+  - Edit `/etc/systemd/system/v2ray.service`, set up the correct path for the configuration file `ExecStart=/usr/local/bin/v2ray -config /etc/v2ray/config.json`
   - Create config dir `sudo mkdir /etc/v2ray`
   - Copy default config.json to /etc/v2ray `sudo cp /usr/local/share/v2ray/config.json /etc/v2ray/`
   - When updating V2Ray, just uncompress the new archive and force the link creation with the new version `sudo ln -sf /usr/local/share/v2ray-4.22.3 /usr/local/share/v2ray`
