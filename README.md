@@ -117,13 +117,13 @@ AWS CloudFront is a service managed from its own console, it's independent of EC
 
 ## Install V2Ray
   - Download latest v2ray-core for Linux 64 bit https://github.com/v2ray/v2ray-core/releases
-  - Uncompress it to /usr/local/, for example, /usr/local/v2ray-4.20.0
-  - Create a symbolic link to the directory, this will allow for easy updates, as we will use v2ray without the version in the configuration files `sudo ln -sf /usr/local/v2ray-4.20.0 /usr/local/v2ray`
-  - Copy systemd unit to /etc `sudo cp /usr/local/v2ray/systemd/v2ray.service /etc/systemd/system/`
-  - Edit `/etc/systemd/system/v2ray.service`, set up the correct commandline `ExecStart=/usr/local/v2ray/v2ray -config /etc/v2ray/config.json`
+  - Uncompress it to /usr/local/share/, for example, /usr/local/share/v2ray-4.20.0
+  - Create a symbolic link to the directory, this will allow for easy updates, as we will use v2ray without the version in the configuration files `sudo ln -sf /usr/local/share/v2ray-4.20.0 /usr/local/share/v2ray`
+  - Copy systemd unit to /etc `sudo cp /usr/local/share/v2ray/systemd/v2ray.service /etc/systemd/system/`
+  - Edit `/etc/systemd/system/v2ray.service`, set up the correct commandline `ExecStart=/usr/local/share/v2ray/v2ray -config /etc/v2ray/config.json`
   - Create config dir `sudo mkdir /etc/v2ray`
-  - Copy default config.json to /etc/v2ray `sudo cp /usr/local/v2ray/config.json /etc/v2ray/`
-  - When updating V2Ray, just uncompress the new archive and force the link creation with the new version `sudo ln -sf /usr/local/v2ray-4.22.3 /usr/local/v2ray`
+  - Copy default config.json to /etc/v2ray `sudo cp /usr/local/share/v2ray/config.json /etc/v2ray/`
+  - When updating V2Ray, just uncompress the new archive and force the link creation with the new version `sudo ln -sf /usr/local/share/v2ray-4.22.3 /usr/local/share/v2ray`
   - Start v2ray `sudo systemctl start v2ray`
   - Ensure service starts properly by checking `sudo systemctl status v2ray`
   - Enable v2ray when system starts `sudo systemctl enable v2ray`
