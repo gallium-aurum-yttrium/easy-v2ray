@@ -69,7 +69,7 @@ password your-dnsexit-password
 
 ## Configure web server
 This is needed because some firewalls monitor HTTPS trafic and establish an HTTPS connection to the webserver to ensure it is a real web server.
-  - Install nginx and letsencrypt facilities `sudo apt install nginx-core python-certbot-nginx`
+  - Install nginx and letsencrypt facilities `sudo apt install nginx-core python3-certbot-nginx`
   - Add V2Ray configuration to `/etc/nginx/sites/available/default`
 ```
 At the end of section server {...
