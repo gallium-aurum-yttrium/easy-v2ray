@@ -60,7 +60,7 @@ machine update.dnsexit.com
 login your-dnsexit-username
 password your-dnsexit-password
 ```
-  - Ensure this file is owned by you and only you can read and write it `chmod 600 ~/netrc`
+  - Ensure this file is owned by you and only you can read and write it `chmod 600 ~/.netrc`
   - Enable the service and the timer `systemctl --user start ddupdate.timer` and `systemctl --user enable ddupdate.timer`
   - Enable start on system boot `sudo loginctl enable-linger $USER`
   - Start the service immediately, to make sure it updates the DNS and to validate the configuration `systemctl --user start ddupdate`
