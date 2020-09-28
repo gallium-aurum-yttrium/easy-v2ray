@@ -61,8 +61,8 @@ login your-dnsexit-username
 password your-dnsexit-password
 ```
   - Ensure this file is owned by root and only root can read and write it `sudo chown root:root /etc/netrc` and `sudo chmod 600 /etc/netrc`
-  - Enable the service and the timer `sudo systemctl enable ddupdate.service` and `sudo systemctl enable ddupdate.timer`
-  - Run the update once and check that dnsexit site has updated the IP `sudo systemctl start ddupdate.service`
+  - Start the service and the timer `systemctl --user start ddupdate.timer` and `systemctl --user enable ddupdate.timer`
+  - Enable start on system boot `sudo loginctl enable-linger $USER`
   - Set the hostname in EC2 server `sudo hostnamectl set-hostname the-hostname-you-chose-in-dnsexit.linkpc.net`
   - Use the hostname to connect to your EC2 from Windows/Linux
 
