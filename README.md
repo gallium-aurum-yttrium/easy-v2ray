@@ -54,15 +54,16 @@ hostname = the-hostname-you-chose-in-dnsexit.linkpc.net
 ip-version = v4
 loglevel = warning
 ```
-  - Configure credentials in file `/etc/netrc`
+  - Configure credentials in file `~/netrc`
 ```
 machine update.dnsexit.com
 login your-dnsexit-username
 password your-dnsexit-password
 ```
-  - Ensure this file is owned by root and only root can read and write it `sudo chown root:root /etc/netrc` and `sudo chmod 600 /etc/netrc`
-  - Start the service and the timer `systemctl --user start ddupdate.timer` and `systemctl --user enable ddupdate.timer`
+  - Ensure this file is owned by you and only you can read and write it `chmod 600 ~/netrc`
+  - Enable the service and the timer `systemctl --user start ddupdate.timer` and `systemctl --user enable ddupdate.timer`
   - Enable start on system boot `sudo loginctl enable-linger $USER`
+  - Start the service immediately, to make sure it updates the DNS and to validate the configuration `systemctl --user start ddupdate`
   - Set the hostname in EC2 server `sudo hostnamectl set-hostname the-hostname-you-chose-in-dnsexit.linkpc.net`
   - Use the hostname to connect to your EC2 from Windows/Linux
 
