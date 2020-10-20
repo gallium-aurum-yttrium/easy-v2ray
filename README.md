@@ -12,7 +12,9 @@ The latest version of this document can be found here: https://github.com/galliu
  - The HTTPS connection will be exposed to Internet using AWS CloudFront CDN
  - V2Ray in the client is configured as a local Socks5 and http proxy, and redirects some traffic to the CDN point ultimately reaching the matching V2Ray in the server
  - Optionally use a dynamic DNS service to ensure your setup will not change if your AWS instance is shut down, as AWS will assign a new IP every time it is stopped.
- 
+
+**_IMPORTANT:_** Follow all the steps in order, there are dependencies between them.
+
 # Server setup
 ## AWS EC2 Instance
   - Create an EC2 instance in AWS, very low resources are needed, the free tier instances work fine
@@ -35,6 +37,8 @@ Host your-alias 123.123.123.123
   - Configure the `Inbound Rules` in the `Security Group` used by the EC2 instance to allow Internet connections for these ports:
     - 80, required by letsencrypt.org
     - 443, will be used for normal web traffic and V2Ray websocket
+
+**_NOTE:_** Update the packages database before proceeding `sudo apt update`
 
 ## Configure dynamic DNS
 Using a dynamic DNS will ensure that your setup is stable even if the EC2 IP address changes, which happens when the EC2 instance is shut down.
