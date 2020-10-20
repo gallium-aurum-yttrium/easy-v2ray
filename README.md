@@ -46,6 +46,8 @@ Using a dynamic DNS will ensure that your setup is stable even if the EC2 IP add
 Alternatively, you can set up an Elastic IP, but you will be charged if the instance is offline. See [pricing](https://aws.amazon.com/premiumsupport/knowledge-center/elastic-ip-charges/).
 
 These steps use DNSExit.com as example, but other services [supported by ddupdate](https://github.com/leamas/ddupdate/tree/devel/plugins) will do as well.
+
+**_NOTE:_** ddupdate runs as a normal user, in the instructions below it uses user `ubuntu` which is the default in AWS ubuntu image.
   - Create an account in dnsexit.com
   - Add one free DNS record
   - In your EC2 server, install ddupdate `sudo apt install ddupdate`
@@ -58,15 +60,15 @@ hostname = the-hostname-you-chose-in-dnsexit.linkpc.net
 ip-version = v4
 loglevel = warning
 ```
-  - Configure credentials in file `~/netrc`
+  - Configure credentials in file `/home/ubuntu/netrc`
 ```
 machine update.dnsexit.com
 login your-dnsexit-username
 password your-dnsexit-password
 ```
-  - Ensure this file is owned by you and only you can read and write it `chmod 600 ~/.netrc`
+  - Ensure this file is owned by you and only you can read and write it `chmod 600 /home/ubuntu/.netrc`
   - Enable the service and the timer `systemctl --user start ddupdate.timer` and `systemctl --user enable ddupdate.timer`
-  - Enable start on system boot `sudo loginctl enable-linger $USER`
+  - Enable start on system boot `sudo loginctl enable-linger ubuntu`
   - Start the service immediately, to make sure it updates the DNS and to validate the configuration `systemctl --user start ddupdate`
   - Set the hostname in EC2 server `sudo hostnamectl set-hostname the-hostname-you-chose-in-dnsexit.linkpc.net`
   - Use the hostname to connect to your EC2 from Windows/Linux
