@@ -60,7 +60,7 @@ hostname = the-hostname-you-chose-in-dnsexit.linkpc.net
 ip-version = v4
 loglevel = warning
 ```
-  - Configure credentials in file `/home/ubuntu/netrc`
+  - Configure credentials in file `/home/ubuntu/.netrc`
 ```
 machine update.dnsexit.com
 login your-dnsexit-username
