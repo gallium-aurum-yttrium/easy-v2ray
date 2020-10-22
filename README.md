@@ -119,6 +119,9 @@ AWS CloudFront is a service managed from its own console, it's independent of EC
     - Origin Keep-alive Timeout: 5
     - HTTP Port: 80
     - HTTPS Port: 443
+  
+  - In the "Behaviors" tab of AWS, edit the default behavior and select `Use legacy cache settings` in "Cache and origin request settings". If this is not enabled, the websockets connection will fail
+  
   - Use your CloudFront domain name from a browser to ensure that it is setup correctly, for example https://sdfgdfcg4352y.cloudfront.net
 
 ## Install V2Ray
