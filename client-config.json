@@ -30,19 +30,21 @@
       "protocol": "socks",
       "port": 1080,
       "listen": "127.0.0.1",
-      "tag": "incoming-connection-socks",
-      "settings": {
-        "udp": true
-        // NOTE: This must be set to the public IP address of the host to allow
-        // public UDP traffic.
-        //"ip": "127.0.0.1"
-      }
+      "sniffing": {
+        "enabled": true,
+        "destOverride": ["http", "tls"]
+      },
+      "tag": "incoming-connection-socks"
     },
     // HTTP PROXY
     {
       "protocol": "http",
       "port": 1081,
       "listen": "127.0.0.1",
+      "sniffing": {
+        "enabled": true,
+        "destOverride": ["http", "tls"]
+      },
       "tag": "incoming-connection-http",
       "settings": {
         "allowTransparent": true
