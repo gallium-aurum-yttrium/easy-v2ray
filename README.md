@@ -19,8 +19,8 @@ The latest version of this document can be found here: https://github.com/galliu
 ## AWS EC2 Instance
   - Create an EC2 instance in AWS, very low resources are needed, the free tier instances work fine
   - Follow the instructions on screen to get the SSH key. Ensure this key is password-protected.
-    - Encrypt ssh key: openssl pkcs8 -topk8 -v2 des3 -in YOUR_KEY.pem -out YOUR_KEY_ENCRYPTED.pkcs8
-    - Generate ssh key to use with PuTTY/WinSCP: puttygen YOUR_KEY.pem -o YOUR_KEY_ENCRYPTED.ppk -O private -P
+    - Encrypt ssh key: `openssl pkcs8 -topk8 -v2 des3 -in YOUR_KEY.pem -out YOUR_KEY_ENCRYPTED.pkcs8`
+    - Generate ssh key to use with PuTTY/WinSCP: `puttygen YOUR_KEY.pem -o YOUR_KEY_ENCRYPTED.ppk -O private -P`
   - Configure ssh access from your coputer to the server (search online for details)
     - For Windows use PuTTYGen to protect the key with password and use it as ssh key-base authentication
     - For Linux
