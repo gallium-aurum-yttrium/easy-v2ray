@@ -43,7 +43,7 @@ Host your-alias 123.123.123.123
 ## Configure dynamic DNS
 Using a dynamic DNS will ensure that your setup is stable even if the EC2 IP address changes, which happens when the EC2 instance is shut down.
 
-Alternatively, you can set up an Elastic IP, but you will be charged if the instance is offline. See [pricing](https://aws.amazon.com/premiumsupport/knowledge-center/elastic-ip-charges/).
+Alternatively, you can set up an Elastic IP in AWS ECS and skip this step. The only benefit is to have an easy to remember name.
 
 These steps use DNSExit.com as example, but other services [supported by ddupdate](https://github.com/leamas/ddupdate/tree/devel/plugins) will do as well.
 
