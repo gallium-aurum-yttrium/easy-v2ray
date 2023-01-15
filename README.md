@@ -1,3 +1,8 @@
+Attention, the configuration listed here may not work anymore from China towards external servers.
+This configuration is still useful to expose your home server to your devices without opening then to the internet.
+
+More information here: https://github.com/net4people/bbs/issues/129
+
 # easy-v2ray
 This document includes instructions on how to setup an AWS EC2 server and AWS CloudFront CDN to set up a reliable proxy. Although these steps would work with other cloud providers, the integration of CloudFront and EC2 makes it very convenient.
 
